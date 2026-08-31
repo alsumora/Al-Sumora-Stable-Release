@@ -58,6 +58,40 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
     }, 600);
   };
 
+  const handleManualSignIn = () => {
+    const safeName = customName.trim();
+    const safeEmail = customEmail.trim();
+
+    if (!safeName || !safeEmail) {
+      return;
+    }
+
+    const newUser: UserProfile = {
+      id: 'usr_custom_' + Math.floor(1000 + Math.random() * 9000),
+      name: safeName,
+      email: safeEmail,
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
+      phone: '+91 98765 43210',
+      billingAddress: {
+        street: 'Main Street, Mumbai',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        postalCode: '400001',
+        country: 'India',
+      },
+      shippingAddress: {
+        street: 'Main Street, Mumbai',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        postalCode: '400001',
+        country: 'India',
+      },
+    };
+
+    onLogin(newUser);
+    onClose();
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -203,6 +237,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
                     className="w-full bg-white border border-[#d3c3be] rounded-lg px-3 py-2 text-xs text-[#090100] focus:outline-none focus:border-[#825425]"
                   />
                 </div>
+
+                <button
+                  type="button"
+                  onClick={handleManualSignIn}
+                  disabled={!customName.trim() || !customEmail.trim()}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#825425] px-4 py-3 text-xs font-semibold text-white shadow-sm transition-all hover:bg-[#6b431d] disabled:cursor-not-allowed disabled:bg-[#d3c3be] disabled:text-[#6f615d]"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Sign In with Email</span>
+                </button>
               </div>
 
               <div className="pt-2 flex items-center justify-center gap-2 text-[10px] text-[#827470]">
